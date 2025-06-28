@@ -27,13 +27,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar background on scroll
+// Enhanced Navbar with logo effects on scroll
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
+    const logo = document.querySelector('.custom-logo');
+    const logoText = document.querySelector('.logo-text');
+    
     if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+        navbar.style.background = 'rgba(15, 20, 25, 0.98)';
+        navbar.classList.add('scrolled');
+        if (logo) {
+            logo.style.transform = 'scale(0.9)';
+            logo.style.filter = 'brightness(1.1)';
+        }
+        if (logoText) {
+            logoText.style.fontSize = '1.3rem';
+        }
     } else {
-        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+        navbar.style.background = 'rgba(15, 20, 25, 0.95)';
+        navbar.classList.remove('scrolled');
+        if (logo) {
+            logo.style.transform = 'scale(1)';
+            logo.style.filter = 'brightness(1)';
+        }
+        if (logoText) {
+            logoText.style.fontSize = '1.5rem';
+        }
     }
 });
 
@@ -95,12 +114,42 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Initialize typing animation when page loads
+// Enhanced logo and title animations when page loads
 window.addEventListener('load', () => {
+    // Logo entrance animation
+    const navLogo = document.querySelector('.custom-logo');
+    const heroLogo = document.querySelector('.hero-logo-inline-big');
+    
+    if (navLogo) {
+        navLogo.style.opacity = '0';
+        navLogo.style.transform = 'scale(0.5) rotate(-180deg)';
+        setTimeout(() => {
+            navLogo.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            navLogo.style.opacity = '1';
+            navLogo.style.transform = 'scale(1) rotate(0deg)';
+        }, 500);
+    }
+    
+    if (heroLogo) {
+        heroLogo.style.opacity = '0';
+        heroLogo.style.transform = 'scale(0.3) rotate(360deg)';
+        setTimeout(() => {
+            heroLogo.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+            heroLogo.style.opacity = '1';
+            heroLogo.style.transform = 'scale(1) rotate(0deg)';
+        }, 800);
+    }
+    
+    // Title animation
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle) {
-        const originalText = heroTitle.textContent;
-        typeWriter(heroTitle, originalText, 50);
+        heroTitle.style.opacity = '0';
+        heroTitle.style.transform = 'translateY(50px)';
+        setTimeout(() => {
+            heroTitle.style.transition = 'all 1s ease';
+            heroTitle.style.opacity = '1';
+            heroTitle.style.transform = 'translateY(0)';
+        }, 1200);
     }
 });
 
@@ -188,7 +237,7 @@ document.querySelectorAll('.skill-tag').forEach(tag => {
     });
 });
 
-// Project cards tilt effect
+// Enhanced project cards with mouse tracking and logo interactions
 document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
@@ -198,14 +247,29 @@ document.querySelectorAll('.project-card').forEach(card => {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
+        const rotateX = (y - centerY) / 15;
+        const rotateY = (centerX - x) / 15;
         
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px) scale(1.02)`;
+        
+        // Update CSS custom properties for the glow effect
+        card.style.setProperty('--x', `${(x / rect.width) * 100}%`);
+        card.style.setProperty('--y', `${(y / rect.height) * 100}%`);
     });
     
     card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+    });
+});
+
+// Logo pulse effect on hover
+document.querySelectorAll('.custom-logo, .hero-logo-inline-big').forEach(logo => {
+    logo.addEventListener('mouseenter', () => {
+        logo.style.animation = 'pulse-glow 0.6s ease-in-out';
+    });
+    
+    logo.addEventListener('animationend', () => {
+        logo.style.animation = '';
     });
 });
 
@@ -229,29 +293,46 @@ if (securityGrid) {
     gridObserver.observe(securityGrid);
 }
 
-// Add CSS for active nav link
+// Enhanced CSS animations and effects
 const style = document.createElement('style');
 style.textContent = `
     .nav-link.active {
         color: var(--primary-color) !important;
+        text-shadow: 0 0 10px rgba(0, 229, 204, 0.5);
     }
     
     .nav-link.active::after {
         width: 100% !important;
+        box-shadow: var(--glow-teal);
     }
     
     .animate-in {
-        animation: slideInUp 0.6s ease forwards;
+        animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     
     @keyframes slideInUp {
         from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(50px) scale(0.9);
         }
         to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    @keyframes pulse-glow {
+        0% {
+            box-shadow: var(--glow-teal);
+            transform: scale(1);
+        }
+        50% {
+            box-shadow: var(--glow-teal-strong), var(--glow-cyber);
+            transform: scale(1.05);
+        }
+        100% {
+            box-shadow: var(--glow-teal);
+            transform: scale(1);
         }
     }
     
@@ -261,10 +342,52 @@ style.textContent = `
     
     .hamburger.active .bar:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
+        background: var(--primary-color);
     }
     
     .hamburger.active .bar:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
+        background: var(--primary-color);
+    }
+    
+    /* Logo breathing effect */
+    @keyframes breathe {
+        0%, 100% {
+            transform: scale(1);
+            filter: brightness(1);
+        }
+        50% {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+    }
+    
+    .logo-breathe {
+        animation: breathe 4s ease-in-out infinite;
+    }
+    
+    /* Enhanced glow effects */
+    .enhanced-glow {
+        position: relative;
+    }
+    
+    .enhanced-glow::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: var(--gradient-primary);
+        border-radius: inherit;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .enhanced-glow:hover::before {
+        opacity: 0.7;
+        animation: rotate 2s linear infinite;
     }
 `;
 document.head.appendChild(style);
@@ -302,9 +425,21 @@ function preloadImages() {
 // Initialize preloading
 preloadImages();
 
-// Add loading animation
+// Enhanced loading with logo reveal
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
+    
+    // Add breathing effect to logos after load
+    setTimeout(() => {
+        document.querySelectorAll('.custom-logo, .hero-logo-inline-big').forEach(logo => {
+            logo.classList.add('logo-breathe');
+        });
+    }, 2000);
+    
+    // Add enhanced glow to interactive elements
+    document.querySelectorAll('.btn, .project-card, .skill-category').forEach(el => {
+        el.classList.add('enhanced-glow');
+    });
 });
 
 // Add CSS for loading state
