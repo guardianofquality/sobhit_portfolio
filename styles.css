@@ -52,7 +52,7 @@
     --font-mono: 'JetBrains Mono', monospace;
 
     /* Spacing */
-    --section-padding: 80px 0;
+    --section-padding: 120px 0;
     --container-padding: 0 20px;
 
     /* Animations */
@@ -291,6 +291,24 @@ body::before {
     width: 100%;
     position: relative;
     z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-logo-container {
+    flex-shrink: 0;
+}
+
+.hero-container-logo {
+    background: linear-gradient(135deg, rgba(26, 29, 41, 0.9) 0%, rgba(42, 45, 58, 0.8) 100%);
+    border-radius: 30px;
+    border: 3px solid var(--electric-teal);
+    box-shadow: var(--glow-teal-strong), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    width: 200px;
+    height: 200px;
+    backdrop-filter: blur(10px);
 }
 
 .hero-content {
@@ -524,6 +542,11 @@ a:hover, .nav-link:hover, .project-link:hover {
     .hero-text {
         text-align: center;
     }
+}
+
+/* Section Spacing */
+section {
+    padding: var(--section-padding);
 }
 
 /* About Section */
@@ -832,7 +855,6 @@ a:hover, .nav-link:hover, .project-link:hover {
 
 /* Write-ups Section */
 .writeups {
-    padding: 100px 0;
     background: var(--bg-secondary);
     position: relative;
 }
@@ -982,7 +1004,6 @@ a:hover, .nav-link:hover, .project-link:hover {
 
 /* Content Creation Section */
 .content-creation {
-    padding: 100px 0;
     background: var(--bg-primary);
 }
 
@@ -1545,19 +1566,39 @@ a:hover, .nav-link:hover, .project-link:hover {
     to { transform: rotate(360deg); }
 }
 
+/* Hero Logo Left (Static) */
+.hero-logo-left {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+}
+
+.hero-logo-static {
+    background: linear-gradient(135deg, rgba(26, 29, 41, 0.9) 0%, rgba(42, 45, 58, 0.8) 100%);
+    border-radius: 20px;
+    border: 2px solid var(--electric-teal);
+    box-shadow: var(--glow-teal), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    max-width: 120px;
+    max-height: 120px;
+    width: 120px;
+    height: 120px;
+    backdrop-filter: blur(10px);
+}
+
 .hero-logo-inline-big {
     background: linear-gradient(135deg, rgba(26, 29, 41, 0.9) 0%, rgba(42, 45, 58, 0.8) 100%);
-    border-radius: 32px;
+    border-radius: 25px;
     border: 3px solid var(--electric-teal);
     box-shadow: 
         0 0 0 1px rgba(255, 255, 255, 0.1),
         0 0 0 8px rgba(0, 229, 204, 0.2),
         var(--glow-teal-strong),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    padding: 28px;
-    max-width: 220px;
+    padding: 20px;
+    max-width: 120px;
     max-height: 120px;
-    width: 220px;
+    width: 120px;
     height: 120px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10;
@@ -1577,21 +1618,52 @@ a:hover, .nav-link:hover, .project-link:hover {
     background: linear-gradient(135deg, rgba(26, 29, 41, 0.95) 0%, rgba(42, 45, 58, 0.9) 100%);
 }
 @media (max-width: 900px) {
+    .hero-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .hero-container-logo {
+        width: 150px;
+        height: 150px;
+        padding: 20px;
+    }
+    .hero-logo-static {
+        max-width: 80px;
+        max-height: 80px;
+        width: 80px;
+        height: 80px;
+        padding: 15px;
+    }
     .hero-logo-inline-big {
-        max-width: 120px;
-        max-height: 60px;
-        width: 120px;
-        height: 60px;
-        padding: 12px;
+        max-width: 80px;
+        max-height: 80px;
+        width: 80px;
+        height: 80px;
+        padding: 15px;
     }
 }
 @media (max-width: 600px) {
+    .hero-container-logo {
+        width: 120px;
+        height: 120px;
+        padding: 15px;
+    }
+    .hero-logo-static {
+        max-width: 60px;
+        max-height: 60px;
+        width: 60px;
+        height: 60px;
+        padding: 12px;
+    }
     .hero-logo-inline-big {
-        max-width: 70px;
-        max-height: 38px;
-        width: 70px;
-        height: 38px;
-        padding: 5px;
+        max-width: 60px;
+        max-height: 60px;
+        width: 60px;
+        height: 60px;
+        padding: 12px;
+    }
+    .hero-logo-left {
+        margin-right: 1rem;
     }
 }
 /* --- END HERO LOGO INLINE BIG --- */
@@ -1848,17 +1920,26 @@ html {
 }
 
 /* Floating Animation */
-@keyframes float {
+@keyframes heartbeat {
     0%, 100% {
-        transform: translateY(0px);
+        transform: scale(1);
     }
-    50% {
-        transform: translateY(-10px);
+    14% {
+        transform: scale(1.1);
+    }
+    28% {
+        transform: scale(1);
+    }
+    42% {
+        transform: scale(1.1);
+    }
+    70% {
+        transform: scale(1);
     }
 }
 
-.floating {
-    animation: float 6s ease-in-out infinite;
+.heartbeat {
+    animation: heartbeat 2s ease-in-out infinite;
 }
 
 /* Pulse Animation */
